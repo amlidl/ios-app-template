@@ -54,7 +54,7 @@ jobs:
         run: xcodegen 
 
       - name: Install Apple Certificate and Provisioning Profile
-        if: ${{ inputs:sign_build == true }}
+        if: ${{ inputs.sign_build }}
         env:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
@@ -84,7 +84,7 @@ jobs:
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles/
 
       - name: Build Unsigned Archive
-        if: ${{ inputs:sign_build == false }}
+        if: ${{ !inputs.sign_build }}
         run: |
           xcodebuild archive \
             -project TestApp.xcodeproj \
@@ -97,7 +97,7 @@ jobs:
             PROVISIONING_PROFILE_SPECIFIER="" | xcbeautify
 
       - name: Build Signed Archive
-        if: ${{ inputs:sign_build == true }}
+        if: ${{ inputs.sign_build }}
         env:
           DEV_TEAM: ${{ secrets.DEVELOPMENT_TEAM }}
           SIGN_ID: ${{ secrets.CODE_SIGN_IDENTITY }}
