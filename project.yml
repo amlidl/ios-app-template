@@ -12,3 +12,9 @@ targets:
       path: TestApp.xcodeproj/Info.plist
       properties:
         UILaunchScreen: {}
+  TestAppUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [Tests]
+    dependencies:
+      - target: TestApp 
